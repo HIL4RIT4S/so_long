@@ -6,7 +6,7 @@
 /*   By: imeliani <imeliani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 17:27:13 by imeliani          #+#    #+#             */
-/*   Updated: 2023/02/01 19:23:53 by imeliani         ###   ########.fr       */
+/*   Updated: 2023/02/01 20:05:12 by imeliani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int     check_len(char **s)
     return (0);
 }
 
-int     check_item(char *s)
+int     check_item(char **s)
 {
     int i;
     int j;
@@ -75,17 +75,19 @@ int     check_item(char *s)
     i = 0;
     while (s[i])
     {
-        while (s[i][j] && s[i][j] != '\n')
+        j = 0;
+        while (s[i][++j] && s[i][j] != '\n')
         {
             if (s[i][j] == 'E')
-                epc[1] += 1;
+                epc[0] += 1;
             if (s[i][j] == 'P')
-                epc[2] += 1;
+                epc[1] += 1;
             if (s[i][j] == 'C')
-                epc[3] += 1;
-            j++;
+                epc[2] += 1;
+            if (s[i][j] != '0' && s[i][j] != '1')
+                return (1);
         }
-        if (epc[1] != '1' && epc[2] != '1' && epc[3] < '1')
+        if (epc[0] != '1' && epc[1] != '1' && epc[2] < '1')
             return (1);
         i++;
     }

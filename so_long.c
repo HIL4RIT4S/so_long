@@ -6,7 +6,7 @@
 /*   By: imeliani <imeliani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:03:16 by imeliani          #+#    #+#             */
-/*   Updated: 2023/02/01 19:33:32 by imeliani         ###   ########.fr       */
+/*   Updated: 2023/02/01 20:00:55 by imeliani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,56 @@ void printab(t_vars *vars)
 //     return (0);
 // }
 
+void path2(t_vars *vars)
+{
+    int i[2];
+
+    i[0] = 0;
+    while (vars->ctab[++i[0]])
+    {
+        i[1] = 0;
+        while(vars->ctab[i[0]][++i[1]])
+        {
+            if (vars->ctab[i[0]][i[1]] == 'P')
+            {
+                if (vars->ctab[i[0]][i[1] + 1] == '0' || vars->ctab[i[0]][i[1] + 1] == 'C')
+                    vars->ctab[i[0]][i[1] + 1] = 'P';
+                if (vars->ctab[i[0]][i[1] - 1] == '0' || vars->ctab[i[0]][i[1] - 1] == 'C')
+                    vars->ctab[i[0]][i[1] - 1] = 'P';
+                if (vars->ctab[i[0] + 1][i[1]] == '0' || vars->ctab[i[0] + 1][i[1]] == 'C')
+                    vars->ctab[i[0] + 1][i[1]] = 'P';
+                if (vars->ctab[i[0] - 1][i[1]] == '0' || vars->ctab[i[0] - 1][i[1]] == 'C')
+                    vars->ctab[i[0] - 1][i[1]] = 'P';
+            }
+            
+        }
+    }
+}
+
+void path(t_vars *vars)
+{
+    int i[2];
+    int l;
+
+    i[0] = 0;
+    l = 0;
+    while (vars->ctab[++i[0]])
+    {
+        i[1] = 0;
+        while(vars->ctab[i[0]][++i[1]])
+        {
+            if (vars->ctab[i[0]][i[1]] == '0' || vars->ctab[i[0]][i[1]] == 'C')
+                l++;
+        }
+    }
+    while(--l >= 0)
+    {
+        printab(vars);
+        printf("\n");
+        path2(vars);
+    }
+}
+
 int     map(t_vars *vars, int fd)
 {
     char    *s;
@@ -52,11 +102,11 @@ int     map(t_vars *vars, int fd)
     return (0);
 }
 
-int check_error(t_vars *vars)
-{
-    if ("fonction" != 0)
-        return(ft_printf("nom de l'erreur"));
-}
+// int check_error(t_vars *vars)
+// {
+//     if ("fonction" != 0)
+//         return(ft_printf("nom de l'erreur"));
+// }
 
 int main()
 {
@@ -65,9 +115,10 @@ int main()
     
     fd = open("map.ber", O_RDONLY);
     map(&vars, fd);
-    if (check_error(&vars) != 0)
-        return(1);
+    // if (check_error(&vars) != 0)
+    //     return(1);
     printab(&vars);
+    path(&vars);
     // t_vars  vars;
     // int x;
     // int y;
