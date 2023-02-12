@@ -6,7 +6,7 @@
 /*   By: imeliani <imeliani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:33:34 by imeliani          #+#    #+#             */
-/*   Updated: 2023/02/05 20:02:21 by imeliani         ###   ########.fr       */
+/*   Updated: 2023/02/12 19:17:51 by imeliani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-// # include <mlx.h>
+# include <mlx.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
@@ -35,6 +35,8 @@ typedef struct	s_vars {
     void    **img;
 	char 	**ctab;
 	char 	**ptab;
+	int 	x;
+	int 	y;
 }				t_vars;
 
 // char	**ft_split(char const *s, char c);

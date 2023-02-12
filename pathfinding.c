@@ -6,33 +6,60 @@
 /*   By: imeliani <imeliani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:28:22 by imeliani          #+#    #+#             */
-/*   Updated: 2023/02/05 16:24:58 by imeliani         ###   ########.fr       */
+/*   Updated: 2023/02/12 15:16:11 by imeliani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-// int     chemin(t_vars vars)
-// {
-//     int x;
-//     int y;
+void path2(t_vars *vars)
+{
+    int i[2];
 
-//     x = 0;
-//     y = 0;
-//     while (vars.ctab[x])
-//     {
-//         y = 0;
-//         while (vars.ctab[x][y])
-//         {
-//             if (vars.ctab[x][y] == 'P')
-//             {
-//                 all(vars.ctab, x, y);
-//                 vars.ctab[x][y] = 'P';
-//             }
-//             y++;
-//         }
-//         x++;
-//     }
-// }
+    i[0] = 0;
+    while (vars->ctab[++i[0]])
+    {
+        i[1] = 0;
+        while(vars->ctab[i[0]][++i[1]])
+        {
+            if (vars->ctab[i[0]][i[1]] == 'P')
+            {
+                vars->x == i[0];
+                vars->y == i[1];
+                if (vars->ctab[i[0]][i[1] + 1] == '0' || vars->ctab[i[0]][i[1] + 1] == 'C')
+                    vars->ctab[i[0]][i[1] + 1] = 'P';
+                if (vars->ctab[i[0]][i[1] - 1] == '0' || vars->ctab[i[0]][i[1] - 1] == 'C')
+                    vars->ctab[i[0]][i[1] - 1] = 'P';
+                if (vars->ctab[i[0 + 1]][i[1]] == '0' || vars->ctab[i[0 + 1]][i[1]] == 'C')
+                    vars->ctab[i[0 + 1]][i[1]] = 'P';
+                if (vars->ctab[i[0 - 1]][i[1]] == '0' || vars->ctab[i[0 - 1]][i[1]] == 'C')
+                    vars->ctab[i[0 - 1]][i[1]] = 'P';
+            }
+        }
+    }
+}
+int path(t_vars *vars)
+{
+    int i[2];
+    int l;
+
+    i[0] = 0;
+    l = 0;
+    while (vars->ctab[++i[0]])
+    {
+        i[1] = 0;
+        while(vars->ctab[i[0]][++i[1]])
+        {
+            if (vars->ctab[i[0]][i[1]] == '0' || vars->ctab[i[0]][i[1]] == 'C')
+                l++;
+        }
+    }
+    while(--l >= 0)
+    {
+        printab(vars);
+        path2(vars);
+    }
+    return(0);
+}
 
 
