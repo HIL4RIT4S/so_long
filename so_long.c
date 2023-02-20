@@ -6,7 +6,7 @@
 /*   By: imeliani <imeliani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:03:16 by imeliani          #+#    #+#             */
-/*   Updated: 2023/02/12 16:15:07 by imeliani         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:23:41 by imeliani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,10 @@ int     map(t_vars *vars, int fd)
 
 int check_error(t_vars *vars)
 {    
-    if (check_ext(vars->ctab) != 0 || check_int(vars->ctab) != 0 || check_len(vars->ctab) != 0 || check_item (vars->ctab) != 0)
-        return(ft_printf("Erreur: Map invalide"));
-        
+    if (check_ext(vars) != 0 || check_int(vars) != 0 || check_len(vars) != 0 || check_item (vars) != 0)
+        return(ft_printf("Erreur: Map invalide"), 1);
+    if (path(vars) != 0)
+        return(ft_printf("Erreur: Aucun chemin"), 1);  
     return (0);
 }
 
@@ -70,7 +71,7 @@ int check_error(t_vars *vars)
 //     vars->mlx = mlx_init();
 //     if (!vars->mlx)
 //         return (0);
-//     vars->win = mlx_new_window(vars->mlx, 1200, 980, "ALED");
+//     vars->win = mlx_new_window(vars->mlx, vars->size[0] * 64, vars->size[1] * 64, "ALED");
 //     if (!vars->win)
 //      {
 //          free(mlx);

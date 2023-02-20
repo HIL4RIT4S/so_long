@@ -6,7 +6,7 @@
 /*   By: imeliani <imeliani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:33:34 by imeliani          #+#    #+#             */
-/*   Updated: 2023/02/12 19:17:51 by imeliani         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:18:22 by imeliani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,12 @@ typedef struct	s_vars {
     void    **img;
 	char 	**ctab;
 	char 	**ptab;
-	int 	x;
-	int 	y;
+	int 	xp;
+	int 	yp;
+	int 	size[2];
+	int 	image[5] = {
+		"image/C.xpm", "image/E.xpm", "image/P.xpm",
+		"image/S.xpm", "image/W.xpm"};
 }				t_vars;
 
 // char	**ft_split(char const *s, char c);

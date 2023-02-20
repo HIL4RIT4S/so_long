@@ -6,7 +6,7 @@
 /*   By: imeliani <imeliani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 15:28:22 by imeliani          #+#    #+#             */
-/*   Updated: 2023/02/12 15:16:11 by imeliani         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:59:16 by imeliani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void path2(t_vars *vars)
         {
             if (vars->ctab[i[0]][i[1]] == 'P')
             {
-                vars->x == i[0];
-                vars->y == i[1];
+                vars->xp == i[0];
+                vars->yp == i[1];
                 if (vars->ctab[i[0]][i[1] + 1] == '0' || vars->ctab[i[0]][i[1] + 1] == 'C')
                     vars->ctab[i[0]][i[1] + 1] = 'P';
                 if (vars->ctab[i[0]][i[1] - 1] == '0' || vars->ctab[i[0]][i[1] - 1] == 'C')

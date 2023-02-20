@@ -6,13 +6,13 @@
 /*   By: imeliani <imeliani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 16:01:59 by imeliani          #+#    #+#             */
-/*   Updated: 2023/02/12 19:27:16 by imeliani         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:21:38 by imeliani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	ft_close(t_vars *vars)
+int	ok_close(t_vars *vars)
 {
 	free_xpm(vars);
 	mlx_clear_window(vars->mlx, vars->win);
@@ -26,7 +26,7 @@ int	ft_close(t_vars *vars)
 	exit(1);
 }
 
-int	ft_close2(t_vars *vars)
+int	error_close(t_vars *vars)
 {
 	mlx_clear_window(vars->mlx, vars->win);
 	mlx_destroy_window(vars->mlx, vars->win);
