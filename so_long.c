@@ -6,95 +6,86 @@
 /*   By: imeliani <imeliani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:03:16 by imeliani          #+#    #+#             */
-/*   Updated: 2023/02/20 15:23:41 by imeliani         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:07:29 by imeliani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void printab(t_vars *vars)
+void	printab(t_vars *vars)
 {
-    int i;
+	int	i;
 
-    i = -1;
-    while (vars->ctab[++i])
-    {
-        printf("%s\n", vars->ctab[i]);
-    }
+	i = -1;
+	while (vars->ptab[++i])
+	{
+		printf("%s\n", vars->ptab[i]);
+	}
 }
 
-// int end(t_vars *vars)
-// {
-//     mlx_destroy_image(vars->mlx, vars->img);
-//     mlx_clear_window(vars->mlx, vars->win);
-//     mlx_destroy_window(vars->mlx, vars->win);
-//     mlx_destroy_display(vars->mlx);
-//     free(vars->mlx);
-//     vars->mlx = 0;
-//     exit(0);
-//     return (0);
-// }
-
-int     map(t_vars *vars, int fd)
+int	check_error(t_vars *vars, char *s)
 {
-    char    *s;
-    char    *line;
-    
-    // fd = open(fd, O_RDONLY);
-    if (fd == -1)
-        return (0);
-    s = ft_calloc(1, 1);
-    line = 0;
-    while ((s = get_next_line(fd)))
-        line = ft_strjoin(line, s);   
-    vars->ctab = ft_split(line, '\n');
-    vars->ptab = ft_split(line, '\n');
-    return (0);
+	if (check_name(s) != 0)
+		return (ft_printf("Erreur: Nom incorrect"), 1);
+	if (check_ext(vars) != 0)
+		return (ft_printf("Erreur: check_ext"), 1);
+	if (check_int(vars) != 0)
+		return (ft_printf("Erreur: check_int"), 1);
+	if (check_len(vars) != 0)
+		return (ft_printf("Erreur: check_len"), 1);
+	if (check_item (vars) != 0)
+		return (ft_printf("Erreur: check_item"), 1);
+	if (path(vars) != 0)
+		return (ft_printf("Erreur: Aucun chemin"), 1);
+	return (0);
 }
 
-int check_error(t_vars *vars)
-{    
-    if (check_ext(vars) != 0 || check_int(vars) != 0 || check_len(vars) != 0 || check_item (vars) != 0)
-        return(ft_printf("Erreur: Map invalide"), 1);
-    if (path(vars) != 0)
-        return(ft_printf("Erreur: Aucun chemin"), 1);  
-    return (0);
+int	mlx_fe(t_vars *vars)
+{
+	vars->mlx = mlx_init();
+	if (!vars->mlx)
+	{
+		clearmemory(vars->ctab);
+		clearmemory(vars->ptab);
+		free(vars);
+		return (1);
+	}
+	vars->win = mlx_new_window(vars->mlx, vars->size[1] * 64,
+			vars->size[0] * 64, "SO_LONG");
+	if (!vars->win)
+	{
+		free(vars->mlx);
+		exit(EXIT_FAILURE);
+	}
+	check_image(vars);
+	my_map(vars);
+	mlx_hook (vars->win, 02, 1L << 0, &key_press, vars);
+	mlx_hook (vars->win, 17, 0, &ok_close, vars);
+	mlx_loop(vars->mlx);
+	return (0);
 }
 
-// int mlx(t_vars *vars)
-// {
-//     t_vars  vars;
-//     int a;
-//     int b;
-    
-    
-//     vars->mlx = mlx_init();
-//     if (!vars->mlx)
-//         return (0);
-//     vars->win = mlx_new_window(vars->mlx, vars->size[0] * 64, vars->size[1] * 64, "ALED");
-//     if (!vars->win)
-//      {
-//          free(mlx);
-//          exit(EXIT_FAILURE);
-//      }
-//     vars->img = mlx_xpm_file_to_image (vars->mlx, "picsou.xpm", &a, &b);
-//     if (!vars->img)
-//         return (end(&vars));
-//     mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
-//     mlx_hook(vars->win, 17, 0, &ft_close, &vars);
-//     mlx_hook(vars->win, 0, 1L << 0, &key_press, vars);
-//     mlx_loop(vars->mlx);
-// }
-
-int main()
+int	main(int ac, char **av, char **env)
 {
-    int fd;
-    t_vars vars;
-    
-    fd = open("map.ber", O_RDONLY);
-    map(&vars, fd);
-    if (check_error(&vars) != 0)
-        return(1);
-    printab(&vars);
-    path(&vars);
+	char	*s;
+	t_vars	*vars;
+
+	s = av[1];
+	if (!env || !*env)
+		return (0);
+	vars = ft_calloc(1, sizeof(t_vars));
+	if (ac == 2)
+	{
+		map(vars, av[1]);
+		recup_p(vars);
+		if (check_error(vars, s) != 0)
+			return (1);
+		size_map(vars);
+		mlx_fe(vars);
+	}
+	else
+	{
+		ok_close(vars);
+		return (0);
+	}
 }
